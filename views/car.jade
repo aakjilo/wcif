@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1
+    |#{car.year} #{car.make} #{car.model} #{car.trim} #{car.body}
+  p
+    |This #{car.body} is a equipped with a 
+    |#{car.hp}hp/#{car.tq}tq, #{disp}L #{car.engine.config} #{car.engine.cylinders} cylinder engine, 
+    |positioned at the #{car.engine.position} of the car
+
+  p 
+    |It makes max power at 
+    |#{car.hp_rpm}rpm and max torque at #{car.tq_rpm}rpm
