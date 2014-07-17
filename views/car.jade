@@ -1,13 +1,56 @@
 extends layout
 
 block content
-  h1
-    |#{car.year} #{car.make} #{car.model} #{car.trim} #{car.body}
-  p
-    |This #{car.body} is a equipped with a 
-    |#{car.hp}hp/#{car.tq}tq, #{disp}L #{car.engine.config} #{car.engine.cylinders} cylinder engine, 
-    |positioned at the #{car.engine.position} of the car
+  div
+    h1
+      |#{car.year} #{car.make} #{car.model} #{car.trim} #{car.body}
+    if car.doors && car.body
+    p
+      |This car is a 
+      if car.seats
+        |#{car.seats} seat, 
+      if car.doors
+        |#{car.doors} door 
+      if car.body
+        |#{car.body}    
+      if car.hp
+        |making #{car.hp}hp 
+      if car.tq
+        |and #{car.tq}tq, 
+      if disp 
+        |powered by a #{disp}L 
+      if car.engine.config
+        |#{car.engine.config} 
+      if car.engine.cylinders
+        |#{car.engine.cylinders} cylinder 
+      |engine 
+      if car.engine.position
+        |positioned at the #{car.engine.position.toLowerCase()} of the car
+      |.
+    if car.hp_rpm && car.tq_rpm
+      p 
+        |It makes max power at 
+        |#{car.hp_rpm}rpm and max torque at #{car.tq_rpm}rpm.
 
-  p 
-    |It makes max power at 
-    |#{car.hp_rpm}rpm and max torque at #{car.tq_rpm}rpm
+    if car.z2h
+      p 0 to 62mph comes up in #{car.z2h}s
+        if (['front','read',12].indexOf(car.drive.toLowerCase()) > -1)
+          |, putting power to the ground through the #{car.drive.toLowerCase()} wheels.
+        else if car.drive
+          |, putting power to the ground through all four wheels.
+    if car.top_speed
+      p It tops out at #{car.top_speed}mph.
+
+  div
+    script.
+      (function() {
+        var cx = '003945092011542261352:ixoc2ejmwwg';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+        })();
+      gcse:search

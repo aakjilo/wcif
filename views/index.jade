@@ -3,3 +3,17 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  div
+    script(type="text/javascript").
+      (function() {
+        var cx = '003945092011542261352:ixoc2ejmwwg';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+        })();
+      <gcse:search-results-only></gcse:search-results-only>

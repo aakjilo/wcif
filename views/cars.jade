@@ -9,7 +9,9 @@ block content
         |#{car.year} #{car.make} #{car.model} #{car.trim} #{car.body} 
         a(href="https://www.google.com/cse/publicurl?cx=003945092011542261352:ixoc2ejmwwg&q=#{car.year}%20#{car.make}%20#{car.model}%20#{car.trim}") on Google
         |, and now testing 
-        a(href="http://en.wikipedia.org/wiki/Special:Search/#{car.year}_#{car.make}_#{car.model}_#{car.trim}") Wikipedia
+        a(href="http://en.wikipedia.org/wiki/Special:Search/#{car.year}_#{car.make}_#{car.model}_#{car.trim}") Wikipedia 
+        |and details locally for 
+        a(href="./car/#{car.slug}") the Car
     li  
     li  
     li

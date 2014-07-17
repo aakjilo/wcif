@@ -11,7 +11,8 @@ router.get('/cars', function(req, res) {
     var db = req.db;
     var winner = "Honda Civic!";
     var collection = db.get('cars');
-    collection.find({},{},function(e,docs){
+
+    collection.find({'year': 2005},{},function(e,docs){
         res.render('cars', {
             "cars" : docs,
             "winner": winner
@@ -19,6 +20,19 @@ router.get('/cars', function(req, res) {
     });
 });
 
+/* GET cars page. */
+router.get('/random', function(req, res) {
+    var db = req.db;
+    var collection = db.get('cars');
+    var rand = Math.floor(Math.random() * (58411 + 1));
+
+    collection.findOne({'rand': rand},{},function(e,doc){
+        res.render('random', {
+            "car" : doc,
+            "disp": (doc.engine.displacement/1000).toFixed(1)
+        });
+    });
+});
 
 /* GET car page. */
 router.get('/cars/test-car', function(req, res) {
@@ -37,6 +51,20 @@ router.get('/cars/test-car', function(req, res) {
             "disp": (doc.engine.displacement/1000).toFixed(1)
         });
     });
+});
+
+router.get('/car/:slug', function(req, res) {
+    var db = req.db;
+    var winner = "Honda Civic!";
+    var collection = db.get('cars');
+    collection.findOne({'slug': req.params.slug},{},function(e,doc){
+        res.render('car', {
+            "car" : doc,
+            "winner": winner,
+            "disp": (doc.engine.displacement/1000).toFixed(1)
+        });
+    });
+ 
 });
 
 module.exports = router;
