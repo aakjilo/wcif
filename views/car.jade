@@ -3,7 +3,7 @@ extends layout
 block content
   div
     h1
-      |#{car.year} #{car.make} #{car.model} #{car.trim} #{car.body}
+      |#{car.year} #{car.make} #{car.model} #{car.trim}
     if car.doors && car.body
     p
       |This car is a 
@@ -12,29 +12,37 @@ block content
       if car.doors
         |#{car.doors} door 
       if car.body
-        |#{car.body}    
+        |#{car.body.toLowerCase()}    
       if car.hp
-        |making #{car.hp}hp 
+        |making #{car.hp} hp 
       if car.tq
-        |and #{car.tq}tq, 
+        |and #{car.tq} lb-ft of torque
+      |. 
+    p
+      |It's powered by 
       if disp 
-        |powered by a #{disp}L 
+        |a #{disp}L 
       if car.engine.config
         |#{car.engine.config} 
       if car.engine.cylinders
         |#{car.engine.cylinders} cylinder 
-      |engine 
+      if car.engine.fuel
+        |#{car.engine.fuel.toLowerCase()} 
+      |engine
       if car.engine.position
-        |positioned at the #{car.engine.position.toLowerCase()} of the car
+        |  positioned at the #{car.engine.position.toLowerCase()} of the car
       |.
-    if car.hp_rpm && car.tq_rpm
-      p 
-        |It makes max power at 
-        |#{car.hp_rpm}rpm and max torque at #{car.tq_rpm}rpm.
+    
+    p 
+      if car.hp_rpm
+        |It makes max power at #{car.hp_rpm} rpm
+      if car.tq_rpm
+        |  and max torque at #{car.tq_rpm} rpm
+      |.
 
     if car.z2h
       p 0 to 62mph comes up in #{car.z2h}s
-        if (['front','read',12].indexOf(car.drive.toLowerCase()) > -1)
+        if (['front','rear',12].indexOf(car.drive.toLowerCase()) > -1)
           |, putting power to the ground through the #{car.drive.toLowerCase()} wheels.
         else if car.drive
           |, putting power to the ground through all four wheels.

@@ -20,7 +20,7 @@ router.get('/cars', function(req, res) {
     });
 });
 
-/* GET cars page. */
+/* GET random car. */
 router.get('/random', function(req, res) {
     var db = req.db;
     var collection = db.get('cars');
@@ -57,13 +57,67 @@ router.get('/car/:slug', function(req, res) {
     var db = req.db;
     var winner = "Honda Civic!";
     var collection = db.get('cars');
-    collection.findOne({'slug': req.params.slug},{},function(e,doc){
+    collection.findOne({'slug': req.params.slug.toLowerCase()},{},function(e,doc){
         res.render('car', {
             "car" : doc,
             "winner": winner,
             "disp": (doc.engine.displacement/1000).toFixed(1)
         });
     });
+ 
+});
+
+router.get('/cars/:year/:make?/:model?/:trim?', function(req, res) {
+    function ucFirstAllWords( str ){
+    var pieces = str.split("-");
+    for ( var i = 0; i < pieces.length; i++ )
+    {
+        var j = pieces[i].charAt(0).toUpperCase();
+        pieces[i] = j + pieces[i].substr(1);
+    }
+    return pieces.join(" ");
+    }
+    console.log(req.params)
+    var db = req.db;
+    var collection = db.get('cars');
+    var winner = "Honda Civic";
+    if (req.params.year && req.params.make && req.params.model && req.params.trim){
+        var query = {'year': Math.floor(req.params.year), 'make': ucFirstAllWords(req.params.make), 
+        'model': ucFirstAllWords(req.params.model), 'trim': ucFirstAllWords(req.params.trim)};
+        collection.findOne(query,{},function(e,doc){
+        res.render('car', {
+            "car" : doc,
+            "disp": (doc.engine.displacement/1000).toFixed(1)
+        });
+    });
+    }
+    else if (req.params.year && req.params.make && req.params.model){
+        var query = {'year': Math.floor(req.params.year), 'make': ucFirstAllWords(req.params.make), 'model': ucFirstAllWords(req.params.model)};
+        collection.find(query,{},function(e,docs){
+        res.render('cars', {
+            "cars" : docs,
+            "winner": winner
+        });
+    });
+    }
+    else if (req.params.year && req.params.make){
+        var query = {'year': Math.floor(req.params.year), 'make': ucFirstAllWords(req.params.make)};
+        collection.find(query,{},function(e,docs){
+        res.render('cars', {
+            "cars" : docs,
+            "winner": winner
+        });
+    });
+    }
+    else{
+        var query = {'year': Math.floor(req.params.year)};
+        collection.find(query,{},function(e,docs){
+        res.render('cars', {
+            "cars" : docs,
+            "winner": winner
+        });
+    });
+    }
  
 });
 
