@@ -7,10 +7,11 @@ block content
     if car.doors && car.body
     p
       |This car is a 
-      if car.seats
-        |#{car.seats} seat, 
       if car.doors
-        |#{car.doors} door 
+        |#{car.doors} door, 
+      if car.seats
+        |#{car.seats} seater 
+       
       if car.body
         |#{car.body.toLowerCase()}    
       if car.hp
@@ -42,12 +43,14 @@ block content
 
     if car.z2h
       p 0 to 62mph comes up in #{car.z2h}s
-        if (['front','read',12].indexOf(car.drive.toLowerCase()) > -1)
+        if (['front','rear',12].indexOf(car.drive.toLowerCase()) > -1)
           |, putting power to the ground through the #{car.drive.toLowerCase()} wheels.
         else if car.drive
           |, putting power to the ground through all four wheels.
     if car.top_speed
       p It tops out at #{car.top_speed}mph.
   div
-    button(value="Reload Page" onClick="window.location.reload()") Gimme anotha!
+    button(value="Reload Page" onClick="window.location.reload()") Random Car
+    p
+    button(onClick="location.href='/cars';") Back to Browsing
   

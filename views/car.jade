@@ -1,5 +1,3 @@
-extends layout
-
 block content
   div
     h1
@@ -7,16 +5,17 @@ block content
     if car.doors && car.body
     p
       |This car is a 
-      if car.seats
-        |#{car.seats} seat, 
       if car.doors
-        |#{car.doors} door 
+        |#{car.doors} door, 
+      if car.seats
+        |#{car.seats} seat 
+       
       if car.body
         |#{car.body.toLowerCase()}    
       if car.hp
-        |making #{car.hp} hp 
+        |making #{car.hp}hp 
       if car.tq
-        |and #{car.tq} lb-ft of torque
+        |and #{car.tq}lb-ft of torque
       |. 
     p
       |It's powered by 
@@ -35,20 +34,41 @@ block content
     
     p 
       if car.hp_rpm
-        |It makes max power at #{car.hp_rpm} rpm
+        |It makes max power at #{car.hp_rpm}rpm
       if car.tq_rpm
-        |  and max torque at #{car.tq_rpm} rpm
-      |.
+        |  and max torque at #{car.tq_rpm}rpm
+      if car.hp_rpm || car.tq_rpm
+        |.
 
-    if car.z2h
-      p 0 to 62mph comes up in #{car.z2h}s
+    if car.z2h && car.z2h < 3.5
+      p 0 to 62mph (100kph) comes up in a blazing #{car.z2h}s
+        if (['front','rear',12].indexOf(car.drive.toLowerCase()) > -1)
+          |, putting power to the ground through the #{car.drive.toLowerCase()} wheels.
+        else if car.drive
+          |, putting power to the ground through all four wheels.
+    else if car.z2h && car.z2h < 5.5
+      p 0 to 62mph (100kph) comes up in just #{car.z2h}s
+        if (['front','rear',12].indexOf(car.drive.toLowerCase()) > -1)
+          |, putting power to the ground through the #{car.drive.toLowerCase()} wheels.
+        else if car.drive
+          |, putting power to the ground through all four wheels.
+    else if car.z2h
+      p 0 to 62mph (100kph) comes up in #{car.z2h}s
         if (['front','rear',12].indexOf(car.drive.toLowerCase()) > -1)
           |, putting power to the ground through the #{car.drive.toLowerCase()} wheels.
         else if car.drive
           |, putting power to the ground through all four wheels.
     if car.top_speed
-      p It tops out at #{car.top_speed}mph.
+      p It has a top speed of #{car.top_speed}mph.
 
+    if car.us == 0
+      p This car was never available for sale in the US.
+  div
+    button(onClick="location.href='/random';") Random Car
+    p
+    button(onClick="location.href='/cars';") Back to Browsing
+    p
+      a(href="https://www.google.com/cse/publicurl?cx=003945092011542261352:ixoc2ejmwwg&q=#{car.year}%20#{car.make}%20#{car.model}%20#{car.trim}") Research on Google
   div
     script.
       (function() {

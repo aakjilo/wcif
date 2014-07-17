@@ -12,7 +12,7 @@ router.get('/cars', function(req, res) {
     var winner = "Honda Civic!";
     var collection = db.get('cars');
 
-    collection.find({'year': 2005},{},function(e,docs){
+    collection.find({'year': {$gte:1900}},{sort:{year:-1,make:1,model:1}, limit:15000},function(e,docs){
         res.render('cars', {
             "cars" : docs,
             "winner": winner
@@ -27,7 +27,7 @@ router.get('/random', function(req, res) {
     var rand = Math.floor(Math.random() * (58411 + 1));
 
     collection.findOne({'rand': rand},{},function(e,doc){
-        res.render('random', {
+        res.render('car', {
             "car" : doc,
             "disp": (doc.engine.displacement/1000).toFixed(1)
         });
